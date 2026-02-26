@@ -98,3 +98,13 @@ class TestMain:
 
     @patch("builtins.input", side_effect=["5", "%", "3"])
     @patch("builtins.print")
+    def test_unknown_operation(self, mock_print, _mock_input):
+        main()
+        mock_print.assert_any_call("Unknown operation: %")
+
+    @patch("builtins.input", side_effect=["5", "+", "3"])
+    @patch("builtins.print")
+    def test_prints_header(self, mock_print, _mock_input):
+        main()
+        mock_print.assert_any_call("Simple Calculator")
+        mock_print.assert_any_call("Operations: +, -, *, /")
