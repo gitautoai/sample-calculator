@@ -109,3 +109,6 @@ class TestMain:
         main()
         mock_print.assert_any_call("Simple Calculator")
         mock_print.assert_any_call("Operations: +, -, *, /")
+
+    def test_repeating_decimal(self):
+        assert divide(10, 3) == pytest.approx(3.3333333333333335)
