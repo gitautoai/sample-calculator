@@ -118,3 +118,4 @@ class TestMain:
     @patch("builtins.print")
     def test_unknown_operation_returns_early(self, mock_print, _mock_input):
         main()
+        assert mock_print.call_count == 3
