@@ -61,6 +61,9 @@ class TestDivide:
     def test_fractional_result(self):
         assert divide(7, 2) == 3.5
 
+    def test_repeating_decimal(self):
+        assert divide(10, 3) == pytest.approx(10 / 3)
+
     def test_divide_by_zero_raises(self):
         with pytest.raises(ValueError, match="Cannot divide by zero"):
             divide(1, 0)
@@ -97,6 +100,12 @@ class TestMain:
         main()
         mock_print.assert_any_call("8.0 / 2.0 = 4.0")
 
+    @patch("builtins.input", side_effect=["10", "/", "3"])
+    @patch("builtins.print")
+    def test_division_repeating_decimal_operation(self, mock_print, _mock_input):
+        main()
+        mock_print.assert_any_call(f"10.0 / 3.0 = {10.0 / 3.0}")
+
     @patch("builtins.input", side_effect=["5", "%", "3"])
     @patch("builtins.print")
     def test_unknown_operation(self, mock_print, _mock_input):
@@ -109,6 +118,3 @@ class TestMain:
         main()
         mock_print.assert_any_call("Simple Calculator")
         mock_print.assert_any_call("Operations: +, -, *, /")
-
-    def test_repeating_decimal(self):
-        assert divide(10, 3) == pytest.approx(3.3333333333333335)
