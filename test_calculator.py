@@ -118,3 +118,5 @@ class TestMain:
     @patch("builtins.print")
     def test_prints_header(self, mock_print, _mock_input):
         main()
+        mock_print.assert_any_call("Simple Calculator")
+        mock_print.assert_any_call("Operations: +, -, *, /")
