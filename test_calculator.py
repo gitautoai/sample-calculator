@@ -175,15 +175,17 @@ class TestMain:
 
 
 class TestMainGuard:
-    @patch("calculator.main")
-    def test_name_main_guard(self, mock_main):
+    @patch("builtins.input", side_effect=["1", "+", "1"])
+    @patch("builtins.print")
+    def test_name_main_guard(self, _mock_print, _mock_input):
         # The if __name__ == "__main__" block should call main()
+        namespace: dict = {"__name__": "__main__"}
         exec(  # noqa: S102
             compile(
                 open("calculator.py").read(),  # noqa: SIM115
                 "calculator.py",
                 "exec",
             ),
-            {"__name__": "__main__"},
+            namespace,
         )
-        mock_main.assert_called_once()
+        _mock_print.assert_any_call("1.0 + 1.0 = 2.0")
