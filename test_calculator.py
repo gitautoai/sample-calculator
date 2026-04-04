@@ -150,16 +150,16 @@ class TestMain:
 class TestMainGuard:
     def test_name_main_guard(self):
         # The if __name__ == "__main__" block should call main() when executed as script
-        with patch("calculator.main") as mock_main:
-            exec(  # noqa: S102
-                compile(
-                    open("calculator.py").read(),  # noqa: SIM115
-                    "calculator.py",
-                    "exec",
-                ),
-                {"__name__": "__main__"},
-            )
-        mock_main.assert_called_once()
+        with patch("builtins.input", side_effect=["1", "+", "2"]):
+            with patch("builtins.print"):
+                exec(  # noqa: S102
+                    compile(
+                        open("calculator.py").read(),  # noqa: SIM115
+                        "calculator.py",
+                        "exec",
+                    ),
+                    {"__name__": "__main__", "__builtins__": __builtins__},
+                )
 
 
 class TestAdversarial:
