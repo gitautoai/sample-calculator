@@ -1,3 +1,4 @@
+# pylint: disable=redefined-outer-name, unused-argument
 from unittest.mock import patch
 
 from calculator import add, divide, main, multiply, subtract
